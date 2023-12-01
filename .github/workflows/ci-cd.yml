@@ -20,6 +20,8 @@ jobs:
     
     - name: Install bun
       uses: oven-sh/setup-bun@v1
+    
+    - name: Installation bun
       run: bun install
 
     - name: Install dependencies
