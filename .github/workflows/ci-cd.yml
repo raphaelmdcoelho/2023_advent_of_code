@@ -17,6 +17,10 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: 14
+    
+    - name: Install bun
+      uses: oven-sh/setup-bun@v1
+      run: bun install
 
     - name: Install dependencies
       run: npm install
