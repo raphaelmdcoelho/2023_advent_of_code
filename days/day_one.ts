@@ -1,14 +1,4 @@
-const readDocument = (filePath: string | URL) => {
-    return Bun.file(filePath);
-}
-
-const getTextFromFile = async (file: any) => {
-    return await file.text();
-}
-
-const getTextArray = (text: string) => {
-    return text.split('\n');
-}
+import { getTextArray, getTextFromFile, readDocument } from "../handlers/file_handlers";
 
 const ConvertWordToNumber = (phrase: string) => {
     phrase = phrase.replace(/nineight/g, '98');
@@ -33,8 +23,12 @@ const ConvertWordToNumber = (phrase: string) => {
     return phrase
 }
 
-const getNumberArrayFromString = (phrase: string) => {
-    // Comment this line, to get the first answer:
+const getNumberArrayFromStringPart1 = (phrase: string) => {
+    const numbers = phrase.match(/\d+/g);
+    return numbers?.toString();
+}
+
+const getNumberArrayFromStringPart2 = (phrase: string) => {
     phrase = ConvertWordToNumber(phrase);
 
     const numbers = phrase.match(/\d+/g);
@@ -46,15 +40,25 @@ const solveFirstPuzzle = async () => {
     const text = await getTextFromFile(file);
     const textArray = getTextArray(text);
 
-    let twoDigits = [];
-    for(const phrase of textArray)
-    {
-        const numbers = getNumberArrayFromString(phrase);
-        twoDigits.push(parseInt('' + numbers?.at(0) + numbers?.at(numbers.length -1)));
+    let twoDigitsPart1 = [];
+    let twoDigitsPart2 = [];
+    for (const phrase of textArray) {
+        const numbersPart1 = getNumberArrayFromStringPart1(phrase);
+        const numbersPart2 = getNumberArrayFromStringPart2(phrase);
+
+        twoDigitsPart1.push(parseInt('' + numbersPart1?.at(0) + numbersPart1?.at(numbersPart1.length - 1)));
+        twoDigitsPart2.push(parseInt('' + numbersPart2?.at(0) + numbersPart2?.at(numbersPart2.length - 1)));
     }
 
-    return twoDigits.reduce((p, c) => { 
-        return p + c });
+    const part1Result = twoDigitsPart1.reduce((p, c) => {
+        return p + c
+    });
+
+    const part2Result = twoDigitsPart2.reduce((p, c) => {
+        return p + c
+    });
+
+    return `Part I result: ${part1Result} - part II result: ${part2Result}`
 }
 
-export { readDocument, getTextFromFile, getTextArray, getNumberArrayFromString, solveFirstPuzzle, ConvertWordToNumber };
+export { getNumberArrayFromStringPart1, getNumberArrayFromStringPart2, solveFirstPuzzle, ConvertWordToNumber };
