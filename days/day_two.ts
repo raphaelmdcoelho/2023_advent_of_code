@@ -9,30 +9,30 @@ const processLines = (textArray: string[]) => {
     let partTwoResult: number = 0;
     for (const line of textArray) {
 
-        const endTitle = line.indexOf(':');
-        const title = line.substring(5, endTitle)
+        const endTitlePosition = line.indexOf(':');
+        const gameId = line.substring(5, endTitlePosition)
 
-        const contentRow = line.substring(endTitle + 2);
+        const row = line.substring(endTitlePosition + 2);
 
-        const arrayOfGames = contentRow.split(';');
+        const arrayOfGames = row.split(';');
 
         let totalBlue = 0;
         let totalRed = 0;
         let totalGreen = 0;
-        for (const game of arrayOfGames) {
-            const gameArray = game.trim().split(',');
+        for (const turns of arrayOfGames) {
+            const turn = turns.trim().split(',');
 
-            ({ totalRed, totalBlue, totalGreen } = CalculateColorValues(gameArray, totalRed, totalBlue, totalGreen));
+            ({ totalRed, totalBlue, totalGreen } = CalculateColorValues(turn, totalRed, totalBlue, totalGreen));
         }
 
         if (totalRed > maximumRed)
-            result.push(parseInt(title));
+            result.push(parseInt(gameId));
 
         if (totalGreen > maximumGreen)
-            result.push(parseInt(title));
+            result.push(parseInt(gameId));
 
         if (totalBlue > maximumBlue)
-            result.push(parseInt(title));
+            result.push(parseInt(gameId));
 
         const totalPower = totalRed * totalBlue * totalGreen;
         partTwoResult += totalPower;
@@ -49,24 +49,24 @@ const processLines = (textArray: string[]) => {
     return `part I result: ${sumOfValidRecords} - part II result: ${partTwoResult}`;
 }
 
-const solveSecondPuzzle = async (partOne: boolean) => {
+const solveSecondPuzzle = async () => {
     const file = readDocument("./inputs/cube_games.txt");
     const text = await getTextFromFile(file);
     const textArray = getTextArray(text);
     return processLines(textArray);
 }
 
-function CalculateColorValues(gameArray: string[], totalRed: number, totalBlue: number, totalGreen: number) {
-    const { redIndex, blueIndex, greenIndex } = getColorPositionIndexes(gameArray);
+function CalculateColorValues(turn: string[], totalRed: number, totalBlue: number, totalGreen: number) {
+    const { redIndex, blueIndex, greenIndex } = getColorPositionIndexes(turn);
 
     if (redIndex > -1)
-        totalRed = getNumberFromString(gameArray, redIndex) > totalRed ? getNumberFromString(gameArray, redIndex) : totalRed;
+        totalRed = getNumberFromString(turn, redIndex) > totalRed ? getNumberFromString(turn, redIndex) : totalRed;
 
     if (blueIndex > -1)
-        totalBlue = getNumberFromString(gameArray, blueIndex) > totalBlue ? getNumberFromString(gameArray, blueIndex) : totalBlue;
+        totalBlue = getNumberFromString(turn, blueIndex) > totalBlue ? getNumberFromString(turn, blueIndex) : totalBlue;
 
     if (greenIndex > -1)
-        totalGreen = getNumberFromString(gameArray, greenIndex) > totalGreen ? getNumberFromString(gameArray, greenIndex) : totalGreen;
+        totalGreen = getNumberFromString(turn, greenIndex) > totalGreen ? getNumberFromString(turn, greenIndex) : totalGreen;
 
     return { totalRed, totalBlue, totalGreen };
 }
@@ -75,16 +75,16 @@ function getNumberFromString(gameArray: string[], indexColor: number): number {
     return parseInt(gameArray?.at(indexColor)?.trim().match(/\d+/g));
 }
 
-function getColorPositionIndexes(gameArray: string[]) {
-    const redIndex = findElementPositionFromArray(gameArray, "red");
-    const blueIndex = findElementPositionFromArray(gameArray, "blue");
-    const greenIndex = findElementPositionFromArray(gameArray, "green");
+function getColorPositionIndexes(turn: string[]) {
+    const redIndex = findElementPositionFromArray(turn, "red");
+    const blueIndex = findElementPositionFromArray(turn, "blue");
+    const greenIndex = findElementPositionFromArray(turn, "green");
     return { redIndex, blueIndex, greenIndex };
 }
 
-function findElementPositionFromArray(gameArray: string[], color: string) {
-    return gameArray.findIndex(element => element.includes(color));
+function findElementPositionFromArray(turn: string[], color: string) {
+    return turn.findIndex(element => element.includes(color));
 }
 
-export { solveSecondPuzzle }
+export { solveSecondPuzzle, findElementPositionFromArray, getColorPositionIndexes, getNumberFromString, CalculateColorValues }
 
