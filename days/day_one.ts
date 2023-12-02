@@ -50,13 +50,8 @@ const solveFirstPuzzle = async () => {
         twoDigitsPart2.push(parseInt('' + numbersPart2?.at(0) + numbersPart2?.at(numbersPart2.length - 1)));
     }
 
-    const part1Result = twoDigitsPart1.reduce((p, c) => {
-        return p + c
-    });
-
-    const part2Result = twoDigitsPart2.reduce((p, c) => {
-        return p + c
-    });
+    const part1Result = twoDigitsPart1.reduce((p, c) => p + c);
+    const part2Result = twoDigitsPart2.reduce((p, c) => p + c);
 
     return `Part I result: ${part1Result} - part II result: ${part2Result}`
 }
