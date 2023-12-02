@@ -3,7 +3,7 @@
 | Day | Title | Silver | Gold |
 | -- | -- | -- | -- |
 | 1 | Trebuchet?! |✅| ✅ |
-| 2 | | | |
+| 2 | Cube Conundrum | ✅ | ✅ |
 | 3 | | | |
 | 4 | | | |
 | 5 | | | |
