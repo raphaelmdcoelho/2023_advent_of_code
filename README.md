@@ -1,5 +1,41 @@
 # Advent of Code - 2023
 
+## How to run
+
+1. Install bun
+
+Bun have different ways to be installed, depending of OS being used. The following link have the instrunctions to install bun:
+
+https://bun.sh/docs/installation
+
+1. Add dependencies
+
+Using npm
+
+```bash
+npm install
+```
+
+Using yarn
+
+```bash
+yarn install
+```
+
+2. Run the application
+
+```bash
+bun index.js
+```
+
+## Running tests
+
+```bash
+bun test
+```
+
+## Status
+
 | Day | Title | Silver | Gold |
 | -- | -- | -- | -- |
 | 1 | Trebuchet?! |✅| ✅ |
